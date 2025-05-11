@@ -19,7 +19,7 @@ final class Billing_Date_Interval {
 	 * negative.
 	 *
 	 * @param int $interval_count Number of units to add.
-	 * @param string $interval_unit Type of interval - 'day', 'month', 'year', '2 years', '3 years'.
+	 * @param string $interval_unit Type of interval - 'day', 'month', 'year'
 	 * @param int $starting_timestamp Timestamp you're adding to.
 	 * @param int|null $original_timestamp If this is adding eg: a month to a subscription, we need to know the original date.
 	 *
@@ -36,7 +36,12 @@ final class Billing_Date_Interval {
 			return $starting_timestamp;
 		}
 
-		$interval_unit = self::normalize_bill_period( $interval_unit );
+		$interval_unit = match ( $interval_unit ) {
+			self::INTERVAL_ONE_DAY, 'days' => self::INTERVAL_ONE_DAY,
+			self::INTERVAL_ONE_MONTH, 'months' => self::INTERVAL_ONE_MONTH,
+			self::INTERVAL_ONE_YEAR, 'years' => self::INTERVAL_ONE_YEAR,
+			default => throw new \Exception( sprintf( 'Unknown bill period: %s', $interval_unit ) ),
+		};
 
 		$date                   = new \DateTimeImmutable();
 		$date                   = $date->setTimestamp( $starting_timestamp );
@@ -214,22 +219,5 @@ final class Billing_Date_Interval {
 			++$intervals_between;
 		} while ( true );
 		return $intervals_between;
-	}
-
-	private static function normalize_bill_period( string $bill_period ): string {
-		switch ( $bill_period ) {
-			case 'days':
-			case 'day':
-				return self::INTERVAL_ONE_DAY;
-
-			case 'months':
-			case 'month':
-				return self::INTERVAL_ONE_MONTH;
-
-			case 'years':
-			case 'year':
-				return self::INTERVAL_ONE_YEAR;
-		}
-		throw new \Exception( sprintf( 'Unknown bill period: %s', $bill_period ) );
 	}
 }
