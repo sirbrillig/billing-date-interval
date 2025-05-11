@@ -1,0 +1,25 @@
+{
+	"name": "sirbrillig/billing-date-interval",
+	"type": "library",
+	"require-dev": {
+		"phpunit/phpunit": "^12.1"
+	},
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"Sirbrillig\\Billing_Date_Interval\\": "src/Billing_Date_Interval.php",
+			"Sirbrillig\\Date_Interval_Parts\\": "src/Date_Interval_Parts.php",
+			"Sirbrillig\\Store_Time\\": "src/Store_Time.php"
+		}
+	},
+	"authors": [
+		{
+			"name": "Payton Swick",
+			"email": "payton@foolord.com"
+		}
+	],
+	"scripts": {
+		"test": "./vendor/bin/phpunit --no-coverage"
+	},
+	"require": {}
+}
