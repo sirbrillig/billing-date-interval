@@ -114,7 +114,7 @@ final class Billing_Date_Interval {
 			return $date->modify( '+' . $days_to_move_in_month - 1 . ' days' )->getTimestamp();
 		}
 
-		throw new \Exception( sprintf( 'Failed to adjust timestamp by %d %s', esc_html( $interval_count ), esc_html( $interval_unit ) ) );
+		throw new \Exception( sprintf( 'Failed to adjust timestamp by %d %s', $interval_count, $interval_unit ) );
 	}
 
 	/**
@@ -127,7 +127,7 @@ final class Billing_Date_Interval {
 		$matches = [];
 		preg_match( '/^([+-])?(\d+) (\w+)$/', $renew_interval, $matches );
 		if ( count( $matches ) !== 3 && count( $matches ) !== 4 ) {
-			throw new \Exception( sprintf( 'Could not parse renew_interval "%s"', esc_html( $renew_interval ) ) );
+			throw new \Exception( sprintf( 'Could not parse renew_interval "%s"', $renew_interval ) );
 		}
 		$has_sign              = count( $matches ) === 4;
 		$sign_part             = $has_sign ? $matches[1] : '+';
@@ -230,6 +230,6 @@ final class Billing_Date_Interval {
 			case 'year':
 				return self::INTERVAL_ONE_YEAR;
 		}
-		throw new \Exception( sprintf( 'Unknown bill period: %s', esc_html( $bill_period ) ) );
+		throw new \Exception( sprintf( 'Unknown bill period: %s', $bill_period ) );
 	}
 }
